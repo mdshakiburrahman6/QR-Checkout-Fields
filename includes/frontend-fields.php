@@ -67,3 +67,12 @@ add_action('pmpro_checkout_after_username', function () {
     </script>
     <?php
 });
+
+add_action('pmpro_checkout_validation', function ($errors) {
+
+    if (empty($_POST['qr_identity'])) {
+        $errors[] = 'Please select Driver / Owner / Driver & Owner.';
+    }
+
+    return $errors;
+});

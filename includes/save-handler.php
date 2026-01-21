@@ -36,5 +36,41 @@ add_action('pmpro_after_checkout', function ($user_id) {
             update_user_meta($user_id, $key, $attachment_id);
         }
     }
+    
 
 });
+
+// EARLY identity save (before checkout completes)
+add_action('pmpro_checkout_before_processing', function () {
+
+    if (empty($_POST['qr_identity'])) {
+        return;
+    }
+
+    // Logged-in user (rare but possible)
+    if (is_user_logged_in()) {
+        update_user_meta(
+            get_current_user_id(),
+            'qr_identity',
+            sanitize_text_field($_POST['qr_identity'])
+        );
+    }
+});
+
+// FINAL fallback: user_register
+add_action('user_register', function ($user_id) {
+
+    // If identity already exists, do nothing
+    if (get_user_meta($user_id, 'qr_identity', true)) {
+        return;
+    }
+
+    if (!empty($_POST['qr_identity'])) {
+        update_user_meta(
+            $user_id,
+            'qr_identity',
+            sanitize_text_field($_POST['qr_identity'])
+        );
+    }
+});
+
