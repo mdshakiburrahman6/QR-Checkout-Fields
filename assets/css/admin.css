@@ -9,3 +9,7 @@
 .qr-max-size {
     max-width: 80px;
 }
+
+.widefat td, .widefat th {
+    vertical-align: middle;
+}

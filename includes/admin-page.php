@@ -4,17 +4,17 @@ if (!defined('ABSPATH')) exit;
 /*---------------------------------------------------
   Admin Menu (TOP LEVEL)
 ---------------------------------------------------*/
-add_action('admin_menu', function () {
-    add_menu_page(
-        'QR Checkout Fields',
-        'QR Checkout Fields',
-        'manage_options',
-        'qr-checkout-fields',
-        'qr_cf_render_admin_page',
-        'dashicons-feedback',
-        58
-    );
-});
+// add_action('admin_menu', function () {
+//     add_menu_page(
+//         'QR Checkout Fields',
+//         'QR Checkout Fields',
+//         'manage_options',
+//         'qr-checkout-fields',
+//         'qr_cf_render_admin_page',
+//         'dashicons-feedback',
+//         58
+//     );
+// });
 
 /*---------------------------------------------------
   Register Option
