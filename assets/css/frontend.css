@@ -87,3 +87,11 @@ i.fa-regular.fa-circle-xmark:hover{
     color: rgb(199, 0, 0);
 }
 
+fieldset {
+    padding: 0px !important;
+    border-radius: 4px;
+    border: none !important;
+}
+.qr_role {
+    margin-left: 30px;
+}
