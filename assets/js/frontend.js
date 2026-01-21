@@ -1,17 +1,20 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    /* ===============================
-       IMAGE UPLOAD HANDLER (GLOBAL)
-    =============================== */
+    /* =================================================
+       IMAGE UPLOAD INITIALIZER (REUSABLE)
+    ================================================= */
 
-    document.querySelectorAll('.qr-upload-box').forEach(box => {
+    function initUploadBox(box) {
+        if (!box) return;
 
         const input = box.querySelector('input[type="file"]');
         const placeholder = box.querySelector('.qr-placeholder');
         const preview = box.querySelector('.qr-preview');
-        const img = preview.querySelector('img');
-        const removeBtn = preview.querySelector('.qr-remove');
+        const img = preview ? preview.querySelector('img') : null;
+        const removeBtn = preview ? preview.querySelector('.qr-remove') : null;
         const maxMB = parseInt(box.dataset.max || 5, 10);
+
+        if (!input || !placeholder || !preview || !img || !removeBtn) return;
 
         box.addEventListener('click', () => input.click());
 
@@ -42,12 +45,19 @@ document.addEventListener('DOMContentLoaded', function () {
             preview.style.display = 'none';
             placeholder.style.display = 'block';
         });
+    }
+
+    /* =================================================
+       INIT GLOBAL IMAGE UPLOAD BOXES
+    ================================================= */
+
+    document.querySelectorAll('.qr-upload-box').forEach(box => {
+        initUploadBox(box);
     });
 
-
-    /* ===============================
+    /* =================================================
        CONDITIONAL FIELDS HANDLER
-    =============================== */
+    ================================================= */
 
     const radios = document.querySelectorAll('input[name="qr_identity"]');
     const container = document.getElementById('qr-dynamic-fields');
@@ -66,21 +76,25 @@ document.addEventListener('DOMContentLoaded', function () {
             wrap.className = 'qr-field';
             wrap.style.width = field.width === '50' ? '48%' : '100%';
 
-            let html = `<label>${field.label}</label>`;
-
             const name = `qr_${group}_${i}`;
             const required = field.required ? 'required' : '';
 
+            let html = `<label>${field.label}</label>`;
+
+            /* TEXTAREA */
             if (field.type === 'textarea') {
                 html += `<textarea name="${name}" ${required}></textarea>`;
             }
-            if (field.type === 'image') {
 
+            /* IMAGE */
+            else if (field.type === 'image') {
                 html += `
                     <div class="qr-upload-box" data-max="${field.max_size || 5}">
                         <input type="file" name="${name}" accept="image/*" hidden>
 
-                        <div class="qr-placeholder">Click or drag image</div>
+                        <div class="qr-placeholder">
+                            Click or drag image
+                        </div>
 
                         <div class="qr-preview" style="display:none">
                             <img src="">
@@ -91,14 +105,25 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>
                 `;
             }
+
+            /* TEXT */
             else {
                 html += `<input type="text" name="${name}" ${required}>`;
             }
 
             wrap.innerHTML = html;
             container.appendChild(wrap);
+
+            /* INIT IMAGE UPLOAD IF EXISTS */
+            wrap.querySelectorAll('.qr-upload-box').forEach(box => {
+                initUploadBox(box);
+            });
         });
     }
+
+    /* =================================================
+       RADIO CHANGE LISTENER
+    ================================================= */
 
     radios.forEach(radio => {
         radio.addEventListener('change', () => {
