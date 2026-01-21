@@ -32,6 +32,7 @@ add_action('admin_init', function () {
 function qr_cf_render_admin_page() {
 
     $config = get_option('qr_cf_fields', [
+        'global' => [], 
         'driver' => [],
         'owner' => [],
         'driver_owner' => [],
@@ -45,12 +46,24 @@ function qr_cf_render_admin_page() {
 
             <?php
             $groups = [
+                'global' => 'Global Fields (Always Visible)',
                 'driver' => 'Driver Fields',
                 'owner' => 'Owner Fields',
                 'driver_owner' => 'Driver & Owner Fields',
             ];
 
             foreach ($groups as $key => $title): ?>
+                <?php
+                    $has_image_field = false;
+
+                    foreach ($config[$key] as $f) {
+                        if (($f['type'] ?? '') === 'image') {
+                            $has_image_field = true;
+                            break;
+                        }
+                    }
+                ?>
+
                 <h2><?php echo esc_html($title); ?></h2>
 
                 <table class="widefat qr-fields-table" data-group="<?php echo esc_attr($key); ?>">
@@ -59,6 +72,9 @@ function qr_cf_render_admin_page() {
                             <th>Label</th>
                             <th>Type</th>
                             <th>Width</th>
+                            <?php if ($has_image_field): ?>
+                                <th class="qr-max-size-col">Max Size (MB)</th>
+                            <?php endif; ?>
                             <th>Required</th>
                             <th></th>
                         </tr>
@@ -73,9 +89,11 @@ function qr_cf_render_admin_page() {
                             </td>
 
                             <td>
-                                <select name="qr_cf_fields[<?php echo $key ?>][<?php echo $i ?>][type]">
+                                <select class="qr-field-type"
+                                    name="qr_cf_fields[<?php echo $key ?>][<?php echo $i ?>][type]">
                                     <option value="text" <?php selected($field['type'], 'text'); ?>>Text</option>
                                     <option value="textarea" <?php selected($field['type'], 'textarea'); ?>>Textarea</option>
+                                    <option value="image" <?php selected($field['type'], 'image'); ?>>Image</option>
                                 </select>
                             </td>
 
@@ -85,6 +103,19 @@ function qr_cf_render_admin_page() {
                                     <option value="50" <?php selected($field['width'], '50'); ?>>50%</option>
                                 </select>
                             </td>
+
+                            <?php if ($has_image_field): ?>
+                                <td class="qr-max-size-col">
+                                    <?php if (($field['type'] ?? '') === 'image'): ?>
+                                        <input type="number"
+                                            class="qr-max-size"
+                                            min="1"
+                                            name="qr_cf_fields[<?php echo $key ?>][<?php echo $i ?>][max_size]"
+                                            value="<?php echo esc_attr($field['max_size'] ?? 5); ?>"
+                                            style="width:80px">
+                                    <?php endif; ?>
+                                </td>
+                            <?php endif; ?>
 
                             <td>
                                 <input type="checkbox"

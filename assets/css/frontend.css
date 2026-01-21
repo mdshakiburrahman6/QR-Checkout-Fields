@@ -4,3 +4,86 @@
     flex-wrap: wrap;
     gap: 20px;
 }
+
+/* ========== QR Checkout Fields ========== */
+
+.qr-global-fields {
+    margin-top: 20px;
+}
+
+.qr-image-field {
+    margin-bottom: 25px;
+}
+
+.qr-image-field label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+/* Upload Box */
+.qr-upload-box {
+    position: relative;
+    border: 2px dashed #cbd5e1;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    background: #f8fafc;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.qr-upload-box:hover {
+    border-color: #2563eb;
+    background: #eff6ff;
+}
+
+/* Placeholder */
+.qr-placeholder {
+    color: #475569;
+    font-size: 14px;
+}
+
+/* Preview */
+.qr-preview {
+    position: relative;
+}
+
+.qr-preview img {
+    max-width: 120px;
+    max-height: 120px;
+    border-radius: 6px;
+    margin: 0 auto;
+    display: block;
+}
+
+/* Remove Button */
+.qr-remove {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.qr-remove:hover {
+    background: transparent;
+}
+
+/* Helper text */
+.qr-image-field small {
+    display: block;
+    margin-top: 6px;
+    color: #64748b;
+    font-size: 12px;
+}
+i.fa-regular.fa-circle-xmark {
+    color: red;
+    font-size: 22px;
+    font-weight: 600;
+}
+i.fa-regular.fa-circle-xmark:hover{
+    color: rgb(199, 0, 0);
+}
+

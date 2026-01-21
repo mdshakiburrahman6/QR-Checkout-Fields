@@ -50,11 +50,19 @@ add_action('admin_enqueue_scripts', function ($hook) {
         QR_CF_VERSION,
         true
     );
+
+     wp_enqueue_style(
+        'qr-fontawesome-admin',
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css',
+        [],
+        '6.5.1'
+    );
 });
 
 /*---------------------------------------------------
   Frontend Assets (PMPro Checkout Only)
 ---------------------------------------------------*/
+
 add_action('wp_enqueue_scripts', function () {
 
     if (!function_exists('pmpro_is_checkout') || !pmpro_is_checkout()) {
@@ -74,5 +82,12 @@ add_action('wp_enqueue_scripts', function () {
         [],
         QR_CF_VERSION,
         true
+    );
+
+     wp_enqueue_style(
+        'qr-fontawesome',
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css',
+        [],
+        '6.5.1'
     );
 });

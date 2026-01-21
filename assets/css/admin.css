@@ -2,3 +2,10 @@
 .qr-table select {
     width: 100%;
 }
+.qr-max-size-col {
+    width: 120px;
+}
+
+.qr-max-size {
+    max-width: 80px;
+}

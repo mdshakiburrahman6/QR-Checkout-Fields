@@ -1,25 +1,47 @@
-document.addEventListener('change', function (e) {
+document.addEventListener('DOMContentLoaded', function () {
 
-    if (e.target.name !== 'qr_identity') return;
+    document.querySelectorAll('.qr-upload-box').forEach(box => {
 
-    const wrapper = document.getElementById('qr-dynamic-fields');
-    wrapper.innerHTML = '';
+        const input = box.querySelector('input[type="file"]');
+        const placeholder = box.querySelector('.qr-placeholder');
+        const preview = box.querySelector('.qr-preview');
+        const img = preview.querySelector('img');
+        const removeBtn = preview.querySelector('.qr-remove');
+        const maxMB = parseInt(box.dataset.max || 5, 10);
 
-    const group = e.target.value;
-    const fields = window.QR_CF_FIELDS[group] || [];
+        // click to open file
+        box.addEventListener('click', () => input.click());
 
-    fields.forEach((f, i) => {
+        // file selected
+        input.addEventListener('change', () => {
+            const file = input.files[0];
+            if (!file) return;
 
-        const width = f.width === '50' ? '48%' : '100%';
+            const sizeMB = file.size / (1024 * 1024);
 
-        wrapper.insertAdjacentHTML('beforeend', `
-            <div style="width:${width};display:inline-block">
-                <label>${f.label}</label>
-                ${f.type === 'textarea'
-                    ? `<textarea name="qr_${group}_${i}"></textarea>`
-                    : `<input type="text" name="qr_${group}_${i}">`
-                }
-            </div>
-        `);
+            if (sizeMB > maxMB) {
+                alert(`Image too large. Max allowed size is ${maxMB}MB`);
+                input.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = e => {
+                img.src = e.target.result;
+                placeholder.style.display = 'none';
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // remove image
+        removeBtn.addEventListener('click', e => {
+            e.stopPropagation();
+            input.value = '';
+            img.src = '';
+            preview.style.display = 'none';
+            placeholder.style.display = 'block';
+        });
     });
+
 });
