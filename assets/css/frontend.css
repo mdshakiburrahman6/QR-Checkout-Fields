@@ -1,3 +1,7 @@
+/* =========================================================
+   QR Checkout Fields – Base Layout
+========================================================= */
+
 #qr-dynamic-fields {
     margin-top: 20px;
     display: flex;
@@ -5,32 +9,97 @@
     gap: 20px;
 }
 
-/* ========== QR Checkout Fields ========== */
-
 .qr-global-fields {
     margin-top: 20px;
 }
 
+/* =========================================================
+   Common Field Wrapper
+========================================================= */
+
+.qr-field,
 .qr-image-field {
-    margin-bottom: 25px;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
-.qr-image-field label {
+/* =========================================================
+   Labels
+========================================================= */
+
+.qr-field label,
+.qr-image-field label,
+#qr-dynamic-fields label {
     display: block;
     font-weight: 600;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
+    font-size: 14px;
+    color: #1f2937;
 }
 
-/* Upload Box */
+/* =========================================================
+   PMPro + QR Input Unified Style
+========================================================= */
+
+.pmpro .pmpro_form_field input[type="text"],
+.pmpro .pmpro_form_field input[type="email"],
+.pmpro .pmpro_form_field input[type="password"],
+.pmpro .pmpro_form_field textarea,
+#qr-dynamic-fields input[type="text"],
+#qr-dynamic-fields input[type="email"],
+#qr-dynamic-fields textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    background: #ffffff;
+    font-size: 14px;
+    line-height: 1.4;
+    transition: all 0.2s ease;
+    box-shadow: none;
+}
+
+/* Focus state */
+.pmpro .pmpro_form_field input:focus,
+.pmpro .pmpro_form_field textarea:focus,
+#qr-dynamic-fields input:focus,
+#qr-dynamic-fields textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    outline: none;
+}
+
+/* =========================================================
+   Role Selector
+========================================================= */
+
+fieldset {
+    padding: 0 !important;
+    border: none !important;
+}
+
+.qr_role {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 6px 0 6px 30px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* =========================================================
+   Image Upload Box
+========================================================= */
+
 .qr-upload-box {
     position: relative;
-    border: 2px dashed #cbd5e1;
-    border-radius: 8px;
-    padding: 20px;
+    border: 2px dashed #c7d2fe;
+    border-radius: 14px;
+    padding: 28px;
     text-align: center;
     cursor: pointer;
-    background: #f8fafc;
-    transition: border-color 0.2s ease, background 0.2s ease;
+    background: linear-gradient(180deg, #f8fafc, #f1f5f9);
+    transition: all 0.25s ease;
 }
 
 .qr-upload-box:hover {
@@ -44,15 +113,18 @@
     font-size: 14px;
 }
 
-/* Preview */
+/* =========================================================
+   Image Preview
+========================================================= */
+
 .qr-preview {
     position: relative;
 }
 
 .qr-preview img {
-    max-width: 120px;
-    max-height: 120px;
-    border-radius: 6px;
+    max-width: 140px;
+    max-height: 140px;
+    border-radius: 10px;
     margin: 0 auto;
     display: block;
 }
@@ -60,38 +132,36 @@
 /* Remove Button */
 .qr-remove {
     position: absolute;
-    top: -8px;
-    right: -8px;
+    top: -10px;
+    right: -10px;
+    background: #ffffff;
+    border-radius: 50%;
+    padding: 2px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
     border: none;
     cursor: pointer;
-    background-color: transparent;
 }
-
-.qr-remove:hover {
-    background: transparent;
+.qr-remove:hover{
+    background: #ffffff;
 }
-
-/* Helper text */
-.qr-image-field small {
-    display: block;
-    margin-top: 6px;
-    color: #64748b;
-    font-size: 12px;
-}
-i.fa-regular.fa-circle-xmark {
-    color: red;
+/* FontAwesome icon */
+.qr-remove i {
+    color: #dc2626;
     font-size: 22px;
     font-weight: 600;
 }
-i.fa-regular.fa-circle-xmark:hover{
-    color: rgb(199, 0, 0);
+
+.qr-remove i:hover {
+    color: #b91c1c;
 }
 
-fieldset {
-    padding: 0px !important;
-    border-radius: 4px;
-    border: none !important;
-}
-.qr_role {
-    margin-left: 30px;
+/* =========================================================
+   Helper Text
+========================================================= */
+
+.qr-image-field small {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: #6b7280;
 }
