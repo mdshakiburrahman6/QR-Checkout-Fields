@@ -73,7 +73,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (field.type === 'textarea') {
                 html += `<textarea name="${name}" ${required}></textarea>`;
-            } else {
+            }
+            if (field.type === 'image') {
+
+                html += `
+                    <div class="qr-upload-box" data-max="${field.max_size || 5}">
+                        <input type="file" name="${name}" accept="image/*" hidden>
+
+                        <div class="qr-placeholder">Click or drag image</div>
+
+                        <div class="qr-preview" style="display:none">
+                            <img src="">
+                            <button type="button" class="qr-remove">
+                                <i class="fa-regular fa-circle-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+            else {
                 html += `<input type="text" name="${name}" ${required}>`;
             }
 

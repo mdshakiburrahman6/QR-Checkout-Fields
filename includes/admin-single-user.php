@@ -46,14 +46,17 @@ function qr_cf_render_single_user_page() {
             echo '<td>';
 
             // Image field
-            if ($field['type'] === 'image' && is_numeric($value)) {
+            if ($field['type'] === 'image') {
 
-                $img = wp_get_attachment_image($value, 'medium');
-                echo $img ?: esc_html($value);
+                if (is_numeric($value)) {
+                    echo wp_get_attachment_image($value, 'medium');
+                } else {
+                    $url = wp_upload_dir()['baseurl'] . '/' . $value;
+                    echo '<img src="' . esc_url($url) . '" style="max-width:200px">';
+                }
 
-            } else {
-                echo esc_html($value);
             }
+
 
             echo '</td></tr>';
         }

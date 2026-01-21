@@ -19,20 +19,22 @@ add_action('pmpro_after_checkout', function ($user_id) {
         }
     }
 
-    // Save image fields
+    // Save image fields (GLOBAL + CONDITIONAL)
     foreach ($_FILES as $key => $file) {
 
-        if (strpos($key, 'qr_global_') === 0 && !empty($file['name'])) {
+        if (strpos($key, 'qr_') !== 0 || empty($file['name'])) {
+            continue;
+        }
 
-            require_once ABSPATH . 'wp-admin/includes/file.php';
-            require_once ABSPATH . 'wp-admin/includes/media.php';
-            require_once ABSPATH . 'wp-admin/includes/image.php';
+        require_once ABSPATH . 'wp-admin/includes/file.php';
+        require_once ABSPATH . 'wp-admin/includes/media.php';
+        require_once ABSPATH . 'wp-admin/includes/image.php';
 
-            $attachment_id = media_handle_upload($key, 0);
+        $attachment_id = media_handle_upload($key, 0);
 
-            if (!is_wp_error($attachment_id)) {
-                update_user_meta($user_id, $key, $attachment_id);
-            }
+        if (!is_wp_error($attachment_id)) {
+            update_user_meta($user_id, $key, $attachment_id);
         }
     }
+
 });
