@@ -7,36 +7,58 @@ function qr_cf_render_single_user_page() {
 
     $user_id = intval($_GET['user_id']);
     $user = get_user_by('id', $user_id);
-
     if (!$user) return;
+
+    $config = get_option('qr_cf_fields', []);
+    $meta   = get_user_meta($user_id);
 
     echo '<div class="wrap">';
     echo '<h1>User Data: ' . esc_html($user->user_login) . '</h1>';
 
     echo '<table class="widefat striped">';
+    echo '<thead><tr><th>Field</th><th>Value</th></tr></thead><tbody>';
 
-    $meta = get_user_meta($user_id);
-
-    foreach ($meta as $key => $values) {
-
-        if (strpos($key, 'qr_') !== 0) continue;
-
-        $value = $values[0];
-
-        // Image handling
-        if (is_numeric($value) && get_post_type($value) === 'attachment') {
-            $img = wp_get_attachment_image($value, 'thumbnail');
-            $value = $img ?: $value;
-        } else {
-            $value = esc_html($value);
-        }
-
+    /* =========================
+       Identity
+    ========================= */
+    if (!empty($meta['qr_identity'][0])) {
         echo '<tr>
-            <th>' . esc_html($key) . '</th>
-            <td>' . $value . '</td>
+            <th>Identity</th>
+            <td>' . esc_html(ucwords(str_replace('_', ' ', $meta['qr_identity'][0]))) . '</td>
         </tr>';
     }
 
-    echo '</table>';
+    /* =========================
+       Loop Config Fields
+    ========================= */
+    foreach ($config as $group => $fields) {
+
+        foreach ($fields as $index => $field) {
+
+            $meta_key = "qr_{$group}_{$index}";
+            if (empty($meta[$meta_key][0])) continue;
+
+            $value = $meta[$meta_key][0];
+            $label = $field['label'] ?? $meta_key;
+
+            echo '<tr>';
+            echo '<th>' . esc_html($label) . '</th>';
+            echo '<td>';
+
+            // Image field
+            if ($field['type'] === 'image' && is_numeric($value)) {
+
+                $img = wp_get_attachment_image($value, 'medium');
+                echo $img ?: esc_html($value);
+
+            } else {
+                echo esc_html($value);
+            }
+
+            echo '</td></tr>';
+        }
+    }
+
+    echo '</tbody></table>';
     echo '</div>';
 }
