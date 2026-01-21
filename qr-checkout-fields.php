@@ -2,7 +2,7 @@
 /**
  * Plugin Name: QR Checkout Fields
  * Description: Identity-based conditional checkout fields for Paid Memberships Pro.
- * Version: 2.2.12
+ * Version: 2.3.0
  * Author: Md Shakibur Rahman
  * Text Domain: qr-checkout-fields
  */
